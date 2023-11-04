@@ -1,6 +1,7 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
+// The 'dev' in 'npx prisma migrate dev --name init' specify a migration CREATEION
+//'npx prisma migrate deploy'will run all migrations in sequence
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,7 +11,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id   Int    @id @default(autoincrement())
-  name String
+model Recipe {
+  id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  Title        String
+  Ingredients  String
+  Instructions String
+  Image_Name   String?
 }

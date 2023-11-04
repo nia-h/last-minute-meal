@@ -13,7 +13,7 @@ datasource db {
 
 model Recipe {
   id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  Title        String
+  Title        String  @unique
   Ingredients  String
   Instructions String
   Image_Name   String?

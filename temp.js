@@ -12,9 +12,31 @@ const rawRecipe = {
 
 let ingredients = rawRecipe.Ingredients;
 
-let newIngres = ingredients.replace(/\'/g, '"');
+const parseIngres = ingres => {
+  let trimmed = ingres.slice(1, -1);
+  let result = [];
 
-console.log(newIngres);
+  let i = 0;
+
+  while (i < trimmed.length) {
+    if (trimmed[i] === "'") {
+      let j = i + 1;
+      let el = "";
+      while (trimmed[j] !== "'") {
+        let char = trimmed[j];
+        el += char;
+        j++;
+      }
+      result.push(el);
+      i = j + 2;
+    } else {
+      i++;
+    }
+  }
+  return result;
+};
+
+console.log(parseIngres(ingredients));
 
 // let arr = JSON.parse(newIngres);
 

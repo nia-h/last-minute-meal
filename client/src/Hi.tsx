@@ -1,4 +1,5 @@
 import { trpc } from "./utils/trpc";
+import React from "react";
 
 function Hi() {
   // const userQuery = trpc.getUser.useQuery({ id: 'id_bilbo' });
@@ -9,7 +10,7 @@ function Hi() {
   }
   main();
 
-  return <div className="bg-red-200  md:bg-blue-300">abc</div>;
+  return <div>abc</div>;
 }
 
 export default Hi;

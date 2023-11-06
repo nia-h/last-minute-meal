@@ -23,7 +23,6 @@ const appRouter = t.router({
     }),
 });
 
-//@ts-ignore
 app.use("/trpc", createExpressMiddleware({ router: appRouter }));
 
 app.listen(3000);

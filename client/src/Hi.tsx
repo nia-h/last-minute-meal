@@ -1,9 +1,8 @@
 import { trpc } from "./utils/trpc";
-import React from "react";
+// import React from "react";
+// import { z } from "zod";
 
 function Hi() {
-  // const userQuery = trpc.getUser.useQuery({ id: 'id_bilbo' });
-  // const userCreator = trpc.createUser.useMutation();
   async function main() {
     try {
       const recipes = await trpc.findRecipes.useQuery({
@@ -11,18 +10,15 @@ function Hi() {
         2: "mushroom",
       });
 
-      console.log("recipes==>", recipes);
-      return;
-
-      if (recipes.error) {
-        console.log("recipes.error?.data==>", recipes.error);
-        return;
+      if (recipes.error?.message) {
+        const errorMessage = JSON.parse(recipes.error.message)[0].message;
+        console.log("errorMessage==>", errorMessage);
       }
 
-      console.log("recipes==>", recipes.data);
+      // console.log("recipes.data==>", recipes.data);
     } catch {
       (e: Error) => {
-        console.log("error==>", e);
+        console.log("catch block==>", e);
       };
     }
   }

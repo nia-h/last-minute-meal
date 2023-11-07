@@ -18,17 +18,17 @@
 // }
 
 //export default App;
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { httpBatchLink } from '@trpc/client';
-import React, { useState } from 'react';
-import { trpc } from './utils/trpc';
-import Hi from './Hi';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { httpBatchLink } from "@trpc/client";
+import React, { useState } from "react";
+import { trpc } from "./utils/trpc";
+import Hi from "./Hi";
 
 const queryClient = new QueryClient();
 const trpcClient = trpc.createClient({
   links: [
     httpBatchLink({
-      url: 'http://localhost:3000/trpc',
+      url: "http://localhost:3000/trpc",
 
       // You can pass any HTTP headers you wish here
       // async headers() {

@@ -4,11 +4,26 @@ function Hi() {
   // const userQuery = trpc.getUser.useQuery({ id: 'id_bilbo' });
   // const userCreator = trpc.createUser.useMutation();
   async function main() {
-    const recipes = await trpc.findRecipes.useQuery({
-      1: "chicken",
-      2: "mushroom",
-    });
-    console.log("result.data==>", recipes.data);
+    try {
+      const recipes = await trpc.findRecipes.useQuery({
+        1: 22,
+        2: "mushroom",
+      });
+
+      console.log("recipes==>", recipes);
+      return;
+
+      if (recipes.error) {
+        console.log("recipes.error?.data==>", recipes.error);
+        return;
+      }
+
+      console.log("recipes==>", recipes.data);
+    } catch {
+      (e: Error) => {
+        console.log("error==>", e);
+      };
+    }
   }
   main();
 

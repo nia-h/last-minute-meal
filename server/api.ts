@@ -3,7 +3,7 @@ import cors from "cors";
 import { initTRPC } from "@trpc/server";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { PrismaClient } from "@prisma/client";
-import { z } from "zod";
+import { z, ZodError } from "zod";
 
 const RecipeQuery = z.object({
   1: z.string(),
@@ -15,11 +15,27 @@ const prisma = new PrismaClient();
 const app = express();
 app.use(cors({ origin: "http://localhost:5177" }));
 
-const t = initTRPC.create();
+const t = initTRPC.create({
+  errorFormatter(opts) {
+    console.log("opts==>", opts);
+    const { shape, error } = opts;
+    return {
+      ...shape,
+      data: {
+        ...shape.data,
+        zodError:
+          error.code === "BAD_REQUEST" && error.cause instanceof ZodError
+            ? error.cause.flatten()
+            : null,
+      },
+    };
+  },
+});
 
 const appRouter = t.router({
-  findRecipes: t.procedure.input(RecipeQuery).query(({ input }) => {
-    const name = input[1];
+  findRecipes: t.procedure.input(RecipeQuery).query(opts => {
+    console.log("opts==>", opts);
+    const name = opts.input[1];
 
     return {
       greeting: `Hello ${name}`,
@@ -42,7 +58,6 @@ const appRouter = t.router({
     //     },
     //     take: 3,
     //   });
-    return "zod test";
   }),
 });
 

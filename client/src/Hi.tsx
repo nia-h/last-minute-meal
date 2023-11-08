@@ -5,17 +5,21 @@ import { trpc } from "./utils/trpc";
 function Hi() {
   async function main() {
     try {
-      const recipes = await trpc.findRecipes.useQuery({
+      const response = await trpc.findRecipes.useQuery({
         1: 22,
         2: "mushroom",
       });
 
-      if (recipes.error?.message) {
-        const errorMessage = JSON.parse(recipes.error.message)[0].message;
+      if (response.error?.data?.zodError) {
+        const errorMessage = JSON.stringify(
+          response.error.data.zodError,
+          null,
+          2,
+        );
         console.log("errorMessage==>", errorMessage);
       }
 
-      // console.log("recipes.data==>", recipes.data);
+      console.log("response.data==>", response.data);
     } catch {
       (e: Error) => {
         console.log("catch block==>", e);
